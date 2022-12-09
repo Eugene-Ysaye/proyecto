@@ -417,12 +417,6 @@ def Pinta_Celdas(px, py, draw):
         cx, cy = int((np.floor((px-difx) / tx))), int((np.floor((py-dify) / ty)))
         nextCellState[cx, cy] = draw
 
-#Funcion para imprimir la matriz
-#Útil para dibujado de patrones, no pensada para la versión final sino para desarrollo
-def imprime():
-    for y in range(ncy):
-        print(nextCellState[y][0:ncx])
-
 #Dentro de Color_Vivo/Muerto/Rendija solo se dibuja nuevos botones
 #No se borran los de Opciones, sin embargo quedan inutilizables hasta cerrar
 
@@ -613,8 +607,8 @@ def GameLife():
                     ClearCells()
                 elif event.key == pygame.K_ESCAPE: #Q = salir de la pantalla de juego
                     run = False
-                elif event.key == pygame.K_s:
-                    imprime()
+                elif event.key == pygame.K_r:
+                    Random_State()
                     
             brush = pygame.mouse.get_pressed() #Estado botones mouse
             px, py = pygame.mouse.get_pos()
