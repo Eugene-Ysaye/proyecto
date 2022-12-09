@@ -263,39 +263,7 @@ def AjusteTamano_Surfaces(event_w, event_h):
     credit_rect = credit.get_rect()
     credit_rect = pygame.Rect(credit_rect[0] + mesh_credit[0], \
                              credit_rect[1] + mesh_credit[1], credit_rect[2], credit_rect[3])
-
-#Reajusta el tamaño de botones Patterns // Misma lógica a Tamano_Surfaces
-def AjusteTamano_SurfacesPatterns(event_w, event_h):
-    global SLifes, Oscilla, Ships, Methu, Others, mesh_SLifes, SLifes_rect, \
-        mesh_Oscilla, Oscilla_rect, mesh_Ships, Ships_rect, mesh_Methu, Methu_rect, \
-        mesh_Others, Others_rect
-    #Reajustamos tamaño boton
-    SLifes = pygame.transform.smoothscale(SLifes, (ancho*scale_patt, (ancho*scale_patt)*(SLifes_y/SLifes_x)))
-    mesh_SLifes = ((screen.get_width()/30), altura/11)
-    SLifes_rect = SLifes.get_rect()
-    SLifes_rect = pygame.Rect(SLifes_rect[0] + mesh_SLifes[0], \
-                             SLifes_rect[1] + mesh_SLifes[1], SLifes_rect[2], SLifes_rect[3])
-    Oscilla = pygame.transform.smoothscale(Oscilla, (ancho*scale_patt, (ancho*scale_patt)*(Oscilla_y/Oscilla_x)))
-    mesh_Oscilla = ((screen.get_width()/30), altura/11)
-    Oscilla_rect = Oscilla.get_rect()
-    Oscilla_rect = pygame.Rect(Oscilla_rect[0] + mesh_Oscilla[0], \
-                             Oscilla_rect[1] + mesh_Oscilla[1], Oscilla_rect[2], Oscilla_rect[3])
-    Ships = pygame.transform.smoothscale(Ships, (ancho*scale_patt, (ancho*scale_patt)*(Ships_y/Ships_x)))
-    mesh_Ships = ((screen.get_width()/30), altura*5/11)
-    Ships_rect = Ships.get_rect()
-    Ships_rect = pygame.Rect(Ships_rect[0] + mesh_Ships[0], \
-                             Ships_rect[1] + mesh_Ships[1], Ships_rect[2], Ships_rect[3])
-    Methu = pygame.transform.smoothscale(Methu, (ancho*scale_patt, (ancho*scale_patt)*(Methu_y/Methu_x)))
-    mesh_Methu = ((screen.get_width()/30), altura*7/11)
-    Methu_rect = Methu.get_rect()
-    Methu_rect = pygame.Rect(Methu_rect[0] + mesh_Methu[0], \
-                             Methu_rect[1] + mesh_Methu[1], Methu_rect[2], Methu_rect[3])
-    Others = pygame.transform.smoothscale(Others, (ancho*scale_patt, (ancho*scale_patt)*(Others_y/Others_x)))
-    mesh_Others = ((screen.get_width()/30), altura*9/11)
-    Others_rect = Others.get_rect()
-    Others_rect = pygame.Rect(Others_rect[0] + mesh_Others[0], \
-                             Others_rect[1] + mesh_Others[1], Others_rect[2], Others_rect[3])
-    
+  
 #Reajusta el tamaño del texto volviendolo a calcular
 def AjusteTamano_Letras():
     global Fuente, Texto, TextoM, TextoR
