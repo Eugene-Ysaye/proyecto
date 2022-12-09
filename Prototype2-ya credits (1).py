@@ -110,31 +110,6 @@ logo = pygame.transform.smoothscale(logo, (ancho*scale, (ancho*scale)*(logo_y/lo
     #Ancho de botones
 width_patterns = ancho*scale_patt
 
-SLifes = Image.open('startbutton.jpg')
-SLifes_x, SLifes_y = SLifes.size
-SLifes = pygame.image.fromstring(SLifes.tobytes(),(SLifes_x, SLifes_y), SLifes.mode)
-SLifes = pygame.transform.smoothscale(SLifes, (width_patterns, width_patterns*(SLifes_y/SLifes_x)))
-
-Oscilla = Image.open('startbutton.jpg')
-Oscilla_x, Oscilla_y = Oscilla.size
-Oscilla = pygame.image.fromstring(Oscilla.tobytes(),(Oscilla_x, Oscilla_y), Oscilla.mode)
-Oscilla = pygame.transform.smoothscale(Oscilla, (width_patterns, width_patterns*(Oscilla_y/Oscilla_x)))
-
-Ships = Image.open('startbutton.jpg')
-Ships_x, Ships_y = Ships.size
-Ships = pygame.image.fromstring(Ships.tobytes(),(Ships_x, Ships_y), Ships.mode)
-Ships = pygame.transform.smoothscale(Ships, (width_patterns, width_patterns*(Ships_y/Ships_x)))
-
-Methu = Image.open('startbutton.jpg')
-Methu_x, Methu_y = Methu.size
-Methu = pygame.image.fromstring(Methu.tobytes(),(Methu_x, Methu_y), Methu.mode)
-Methu = pygame.transform.smoothscale(Methu, (width_patterns, width_patterns*(Methu_y/Methu_x)))
-
-Others = Image.open('startbutton.jpg')
-Others_x, Others_y = Others.size
-Others = pygame.image.fromstring(Others.tobytes(),(Others_x, Others_y), Others.mode)
-Others = pygame.transform.smoothscale(Others, (width_patterns, width_patterns*(Others_y/Others_x)))
-
 #Se crea la pantalla
 screen = pygame.display.set_mode((ancho, altura),  pygame.RESIZABLE)
 
