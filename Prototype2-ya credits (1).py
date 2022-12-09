@@ -1,6 +1,7 @@
 import pygame, sys
 from PIL import Image
 import numpy as np
+import random
 
 pygame.init()
 
@@ -398,6 +399,16 @@ def ClearCells():
         for j in range(100):
             nextCellState[i, j] = 0
 
+def Random_State():
+    ClearCells()
+    rcx = []
+    rcy = []
+    nstate = random.randint(0, int((ncx*ncy)/2))
+    for i in range(nstate):
+        rcx.append(random.randint(0, ncx))
+        rcy.append(random.randint(0, ncy))
+    nextCellState[rcx, rcy] = 1
+
 #Colorea la celda en la que esta sostenido el mouse
 #Necesita de la posción y si es botón izquiero o derecho
 def Pinta_Celdas(px, py, draw):
@@ -405,15 +416,6 @@ def Pinta_Celdas(px, py, draw):
     py > dify and py < ((ncy+1)*ty)+dify:
         cx, cy = int((np.floor((px-difx) / tx))), int((np.floor((py-dify) / ty)))
         nextCellState[cx, cy] = draw
-
-#Función para crear patrón
-def state_1():
-    ClearCells()
-    middle = int(ncy/2)
-    if ncy % 2 == 0:
-        middle = middle, middle - 1
-    for i in range(ncx):
-        nextCellState[i, middle] = CellState[i, middle] = 1
 
 #Funcion para imprimir la matriz
 #Útil para dibujado de patrones, no pensada para la versión final sino para desarrollo
