@@ -74,6 +74,9 @@ y_color = x_color/2
 coloresVivos= pygame.Rect(int(ancho/140), (0*h_color)+5, x_color, y_color)
 coloresMuertos= pygame.Rect(int(ancho/140), (1*h_color)+5, x_color, y_color)
 colorRendija=pygame.Rect(int(ancho/140),(2*h_color)+5, x_color, y_color)
+tamaño20x20= pygame.Rect(int(ancho/2)-(y_color),(0*h_color)+200, x_color, y_color)
+tamaño50x50= pygame.Rect(int(ancho/2)-(y_color),(0*h_color)+(y_color)+210, x_color, y_color)
+tamaño100x100= pygame.Rect(int(ancho/2)-(y_color),(0*h_color)+(2*y_color)+220, x_color, y_color)
 #Se dibuja botones
 
 #Medida cuadros colores
@@ -91,6 +94,7 @@ start_x, start_y = start.size
 start = pygame.image.fromstring(start.tobytes(),(start_x, start_y), start.mode)
 #Se escala el tamaño de la imagen (Ancho como determinanate)
 start = pygame.transform.smoothscale(start, (ancho*scale, (ancho*scale)*(start_y/start_x)))
+
 credit = Image.open('startbutton.jpg')
 credit_x, credit_y = credit.size
 credit = pygame.image.fromstring(credit.tobytes(),(credit_x, credit_y), credit.mode)
@@ -229,11 +233,25 @@ def Dibujo_SurfacesColors():
     pygame.draw.rect(screen,ColorRendija,pygame.Rect(x_VistaPre+(0*x_CeldaPre), h_VistaPre+(2*x_CeldaPre), x_CeldaPre, x_CeldaPre),1)
     pygame.draw.rect(screen,ColorRendija,pygame.Rect(x_VistaPre+(1*x_CeldaPre), h_VistaPre+(2*x_CeldaPre), x_CeldaPre, x_CeldaPre),1)
     pygame.draw.rect(screen,ColorRendija,pygame.Rect(x_VistaPre+(2*x_CeldaPre), h_VistaPre+(2*x_CeldaPre), x_CeldaPre, x_CeldaPre),1)
+
+def Dibujo_SurfacesSizes():
+    global ncx,ncy,tx,ty
+    screen.fill(ColorMuerto)
+    pygame.draw.rect(screen,(gr),tamaño20x20,0) 
+    pygame.draw.rect(screen,(gr),tamaño50x50,0)  
+    pygame.draw.rect(screen,(gr),tamaño100x100,0)    
+    for y in range(0, ncx):
+        for x in range (0, ncy):            
+            Coordenadas=[((x)*tx, (y)*ty), ((x+1)*tx, (y)*ty), ((x+1)*tx, (y+1)*ty ),((x)*tx, (y+1)*ty)]
+            pygame.draw.polygon(screen,ColorRendija, Coordenadas,1)
+    
+    
     
 def Dibujo_SurfacePickColors(n_boton):
     for i in range(12):
         pygame.draw.rect(screen,AllColors[i],(pygame.Rect(x_color+(5*(i+2))+(i*l_color),(n_boton*h_color)+5,l_color,l_color)),(i==1))
     pygame.draw.rect(screen,AllColors[1],(pygame.Rect(x_color+(5*2)+(0*l_color),(n_boton*h_color)+10+l_color,l_color,l_color)),0)
+    print(n_boton)
     
 #En caso de RESIZE se modifica el tamaño que tendran las celdas (Necesita nuevo tamaño)
 def AjusteTamano_Celdas(event_w, event_h):
@@ -405,9 +423,11 @@ def imprime():
 
 #Dentro de Color_Vivo/Muerto/Rendija solo se dibuja nuevos botones
 #No se borran los de Opciones, sin embargo quedan inutilizables hasta cerrar
+
+
+                    
 def Color_Vivo():
     global ColorVivo
-    
     run=True
     while run:
         #Función que coloca los cuadros
@@ -418,7 +438,7 @@ def Color_Vivo():
                 pygame.quit()
                 sys.exit() 
             if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_q:                   
+                if event.key==pygame.K_ESCAPE:                   
                     run=False
             if event.type==pygame.MOUSEBUTTONDOWN:
                 #Seleccipon de Color al clicar
@@ -447,7 +467,7 @@ def Color_Muerto():
                 pygame.quit()
                 sys.exit()
             if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_q:                   
+                if event.key==pygame.K_ESCAPE:                   
                     run=False
             if event.type==pygame.MOUSEBUTTONDOWN:
                 if event.button==1:
@@ -475,7 +495,7 @@ def Color_Rendija():
                 pygame.quit()
                 sys.exit()  
             if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_q:                   
+                if event.key==pygame.K_ESCAPE:                   
                     run=False
             if event.type==pygame.MOUSEBUTTONDOWN:
                 if event.button==1:
@@ -502,7 +522,7 @@ def Colores():
                 pygame.quit()
                 sys.exit()
             if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_q:
+                if event.key==pygame.K_ESCAPE:
                     run=False
             if event.type==pygame.MOUSEBUTTONDOWN:
                 if event.button==1:
@@ -518,40 +538,52 @@ def Colores():
                 AjusteTamano_All(event.w, event.h)
         
         pygame.display.update()
-    screen.fill(wh) 
-
-#Ciclo para seleccionar Patrones
-def Patterns():
-    run = True
+    screen.fill(wh)
+    
+def Tamaño():
+    global ncx, ncy, tx, ty,ancho,altura
+    tx = ancho/ncx
+    ty = altura/ncy
+    
+    run= True 
     while run:
-        Dibujo_SurfacesPatterns()
+        screen.fill(wh)
+        Dibujo_SurfacesSizes()
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            
+            if event.type==pygame.QUIT:
                 pygame.quit()
                 sys.exit()
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_q:
-                    run = False
-            if event.type == pygame.MOUSEBUTTONDOWN:
-                px, py = pygame.mouse.get_pos()
-                #Guardamos la string que nos da "Colision_Surfaces"
-                Place_Colis = Collision_Surfaces_Patterns(px, py)
-                if Place_Colis == "SLifes":
-                    print("SLifes")
-                elif Place_Colis == "Oscilla":
-                    print("Oscilla")
-                elif Place_Colis == "Ships":
-                    print("Ships")
-                elif Place_Colis == "Methu":
-                    print("Methu")
-                elif Place_Colis == "Others":
-                    print("Others")
-            #Si se cambia de tamaño la pantalla
-            if event.type == pygame.VIDEORESIZE:
-                AjusteTamano_All(event.w, event.h)
-        clock.tick(fps)
+            if event.type==pygame.KEYDOWN:
+                if event.key==pygame.K_ESCAPE:
+                    run=False
+            if event.type==pygame.MOUSEBUTTONDOWN:
+                if event.button==1:
+                #Saber sobre que se pico
+                #Notese que no se desdibuja los botones de ciclo Opciones
+                    if tamaño20x20.collidepoint(pygame.mouse.get_pos()):
+                        ncx=20
+                        ncy=20
+                        tx = ancho/ncx
+                        ty = altura/ncy
+                        Dibujo_SurfacesSizes()
+                    elif tamaño50x50.collidepoint(pygame.mouse.get_pos()):
+                        ncx=50
+                        ncy=50
+                        tx = ancho/ncx
+                        ty = altura/ncy
+                        Dibujo_SurfacesSizes()                       
+                    elif tamaño100x100.collidepoint(pygame.mouse.get_pos()):
+                        ncx=100 
+                        ncy=100
+                        tx = ancho/ncx
+                        ty = altura/ncy
+                        Dibujo_SurfacesSizes()
+                if event.type == pygame.VIDEORESIZE:
+                    AjusteTamano_All(event.w, event.h)
+      
         pygame.display.update()
-    screen.fill(bl)
+    screen.fill(wh) 
 
 #Función del juego
 def GameLife():
@@ -577,13 +609,11 @@ def GameLife():
                     pause = not pause
                 elif event.key == pygame.K_c: #C = limpiar tablero
                     ClearCells()
-                elif event.key == pygame.K_q: #Q = salir de la pantalla de juego
+                elif event.key == pygame.K_ESCAPE: #Q = salir de la pantalla de juego
                     run = False
                 elif event.key == pygame.K_s:
                     imprime()
-                elif event.key == pygame.K_p:
-                    screen.fill(bl)
-                    Patterns()
+                    
             brush = pygame.mouse.get_pressed() #Estado botones mouse
             px, py = pygame.mouse.get_pos()
             if True in brush:
@@ -666,7 +696,7 @@ def Opciones():
                 sys.exit()
         
             if event.type==pygame.KEYDOWN:
-                if event.key==pygame.K_q:
+                if event.key==pygame.K_ESCAPE:
                     run = False
             if event.type==pygame.MOUSEBUTTONDOWN:
                 if event.button==1:
@@ -674,7 +704,7 @@ def Opciones():
                     if colores.collidepoint(pygame.mouse.get_pos()):
                         Colores()
                     elif tamaño.collidepoint(pygame.mouse.get_pos()):
-                        print("Opciones de Tamaño")
+                        Tamaño()
                     elif start_game.collidepoint(pygame.mouse.get_pos()):
                         #En caso de iniciar el juego:
                         screen.fill(bl)
@@ -682,50 +712,9 @@ def Opciones():
                         run = False #False para salir directo al menu principal
             if event.type == pygame.VIDEORESIZE:
                 AjusteTamano_All(event.w, event.h)
-     #agregamos la función para añadir la imagen del apartado creditos   
+        
         pygame.display.update()
 
-Credit_image = Image.open('duq.png')
-#Ancho y Aletura original de la imagen de creditos (esto nos facilita para evitar la perdida de proporción)
-Credit_x, Credit_y = Credit_image.size
-Credit_image = pygame.image.fromstring(Credit_image.tobytes(),(Credit_x, Credit_y), Credit_image.mode)
-#El tamaño de la imagen de creditos  
-Credit_image = pygame.transform.smoothscale(Credit_image, (width_patterns, width_patterns*(Credit_y/Credit_x)))
-#Función de cambio de tamaño de la  ventana 
-
-
-def Credits_changes():
-    global Credit_image
-    Credit_image = pygame.transform.smoothscale(Credit_image, (width_patterns, width_patterns*(Credit_y/Credit_x)))
-
-
-#función para el dibujo del apartado creditos 
-def Dibujo_creditos():
-    pygame.Surface.blit(screen, Credit_image, (100,100))
-#función creditos 
-
-def creditos ():
-    #dibujar de nuevo la pantalla para poner los cambios constantes
-    screen.fill(bl)
-    #se inicia el bucle de la función creditos 
-    run = True
-    while run:
-        Dibujo_creditos()
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT():
-                pygame.quit()
-                sys.exit()
-                if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_q: #Q = salir de la pantalla de juego
-                        run = False 
-          #Si se cambia de tamaño la pantalla
-            if event.type == pygame.VIDEORESIZE:
-                AjusteTamano_Celdas(event.w, event.h) 
-                AjusteTamano_Surfaces(event.w, event.h)
-                AjusteTamano_SurfacesPatterns(event.w, event.h)
-                Credits_changes()
-        #ajusteTamano_Creditos(event,w, event.h)
-        
 # Se inicia el bucle principal (Menu Principal)
 while True:
     #Redibujo de superficies
