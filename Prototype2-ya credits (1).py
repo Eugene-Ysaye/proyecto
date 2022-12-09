@@ -136,30 +136,6 @@ mesh_credit = ((screen.get_width()/2)-(credit.get_width()/2), altura/1.5)
 credit_rect = credit.get_rect()
 credit_rect = pygame.Rect(credit_rect[0] + mesh_credit[0], \
                          credit_rect[1] + mesh_credit[1], credit_rect[2], credit_rect[3])
-mesh_SLifes = ((screen.get_width()/30), altura/11)
-SLifes_rect = SLifes.get_rect()
-SLifes_rect = pygame.Rect(SLifes_rect[0] + mesh_SLifes[0], \
-                         SLifes_rect[1] + mesh_SLifes[1], SLifes_rect[2], SLifes_rect[3])
-
-mesh_Oscilla = ((screen.get_width()/30), altura*3/11)
-Oscilla_rect = Oscilla.get_rect()
-Oscilla_rect = pygame.Rect(Oscilla_rect[0] + mesh_Oscilla[0], \
-                         Oscilla_rect[1] + mesh_Oscilla[1], Oscilla_rect[2], Oscilla_rect[3])
-
-mesh_Ships = ((screen.get_width()/30), altura*5/11)
-Ships_rect = Ships.get_rect()
-Ships_rect = pygame.Rect(Ships_rect[0] + mesh_Ships[0], \
-                         Ships_rect[1] + mesh_Ships[1], Ships_rect[2], Ships_rect[3])
-
-mesh_Methu = ((screen.get_width()/30), altura*7/11)
-Methu_rect = Methu.get_rect()
-Methu_rect = pygame.Rect(Methu_rect[0] + mesh_Methu[0], \
-                         Methu_rect[1] + mesh_Methu[1], Methu_rect[2], Methu_rect[3])
-
-mesh_Others = ((screen.get_width()/30), altura*9/11)
-Others_rect = Others.get_rect()
-Others_rect = pygame.Rect(Others_rect[0] + mesh_Others[0], \
-                         Others_rect[1] + mesh_Others[1], Others_rect[2], Others_rect[3])
 
 # "Global" Le indica a las funciones que
 # se trata de variables declaradas fuera (arriba)
@@ -171,16 +147,6 @@ def Dibujo_Surfaces():
     pygame.Surface.blit(screen, logo, ((screen.get_width()/2)-(start.get_width()/2), altura/6))
     pygame.Surface.blit(screen, start, mesh_start)
     pygame.Surface.blit(screen, credit, mesh_credit)
-
-#Dibuja los botones de Patterns
-def Dibujo_SurfacesPatterns():
-    screen.fill(bl)
-    # altura*n/numero_espacios (Para sea parejo)
-    pygame.Surface.blit(screen, SLifes, mesh_SLifes)
-    pygame.Surface.blit(screen, Oscilla, mesh_Oscilla)
-    pygame.Surface.blit(screen, Ships, mesh_Ships)
-    pygame.Surface.blit(screen, Methu, mesh_Methu)
-    pygame.Surface.blit(screen, Others, mesh_Others)
 
 def Dibujo_SurfacesColors():
     global l_color
@@ -290,7 +256,6 @@ def AjusteTamano_Colores():
 def AjusteTamano_All(event_w, event_h):
     AjusteTamano_Celdas(event_w, event_h)
     AjusteTamano_Surfaces(event_w, event_h)
-    AjusteTamano_SurfacesPatterns(event_w, event_h)
     AjusteTamano_Letras()
     AjusteTamano_Colores()
 
@@ -300,19 +265,6 @@ def Collision_Surfaces_Main(Mse_px, Mse_py):
         return "start"
     elif(credit_rect.collidepoint(Mse_px, Mse_py)):
         return "credit"
-
-#Equivalente de Collision Main pero para el menu Patterns
-def Collision_Surfaces_Patterns(Mse_px, Mse_py):
-    if(SLifes_rect.collidepoint(Mse_px, Mse_py)):
-        return "SLifes"
-    elif(Oscilla_rect.collidepoint(Mse_px, Mse_py)):
-        return "Oscilla"
-    elif(Ships_rect.collidepoint(Mse_px, Mse_py)):
-        return "Ships"
-    elif(Methu_rect.collidepoint(Mse_px, Mse_py)):
-        return "Methu"
-    elif(Others_rect.collidepoint(Mse_px, Mse_py)):
-        return "Others"
 
 def Collision_SurfacePickColors(Mse_px, Mse_py, n_boton):
     global ColorVivo, ColorMuerto, ColorRendija
